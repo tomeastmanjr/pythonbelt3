@@ -10,7 +10,53 @@
 <script src="{% static 'beltapp3/js/main.js' %}" > </script>
 </head>
 <body>
-    <h1>Hello, {{request.session.full_name}}</h1>
-  <div class="line"><span class="text html basic"><span>{{somekey}}</span></span></div>
+    <h1>Hello, {{request.session.username}}</h1>
+    <div id="top">
+      <a href="{% url 'loginreg:logout' %}">Logout</a>
+    </div>
+
+    <h2>Your Wish List</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Date Added</th>
+        <th>Action</th>
+      </tr>
+    {% for item in me %}
+      <tr>
+        <td><a href="{% url 'beltapp3:show' item_id=item.id%}">{{item.item_name}}</a></td>
+        <td>{{item.creator.full_name}}</td>
+        <td>{{item.created_at|date:'b d Y'}}</td>
+        {% if  item.creator.username == request.session.username %}
+          <td><a href="{% url 'beltapp3:delete' item_id=item.id%}">Delete</a></td>
+        {% else %}
+          <td><a href="{% url 'beltapp3:edit' item_id=item.id%}">Remove from my Wishlist</a></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </table>
+    <p></p>
+    <h2>Other User's Wish List</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Date Added</th>
+        <th>Action</th>
+      </tr>
+    {% for item in notme %}
+    <tr>
+      <td><a href="{% url 'beltapp3:show' item_id=item.id%}">{{item.item_name}}</a></td>
+      <td>{{item.creator.full_name}}</td>
+      <td>{{item.created_at|date:'b d Y'}}</td>
+      <td><a href="{% url 'beltapp3:update' item_id=item.id%}">Add to my Wishlist</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <div id="bottom">
+      <a href="{% url 'beltapp3:add' %}">Add Item</a>
+    </div>
 </body>
 </html>

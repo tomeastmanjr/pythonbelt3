@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 from django.db import models
 
-# class People(models.Model):
-#     first_name = models.CharField(max_length=30)
-#     last_name = models.CharField(max_length=30)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+class Item(models.Model):
+    item_name = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey("loginreg.User", related_name = "creator")
+    adders = models.ManyToManyField("loginreg.User", related_name = "adders") # User.objects.get(id=request.session['id']).adders.all is what the related name "adders" allows you to do. That would give you all of the items the User.id referenced wants

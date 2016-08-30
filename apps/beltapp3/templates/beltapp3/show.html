@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{item.item_name}}</title>
+  {% load staticfiles %}
+<link rel="stylesheet" href="{% static 'beltapp3/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+<script src="{% static 'beltapp3/js/main.js' %}" > </script>
+</head>
+<body>
+    <div id="top">
+      <a href="{% url 'beltapp3:index' %}">Home</a> |
+      <a href="{% url 'loginreg:logout' %}">Logout</a>
+    </div>
+    <div id="item">
+      <h2>{{item.item_name}}</h2>
+      <h4>Users who added this product/item under their wish list</h4>
+      <p>{{item.creator.full_name}}</p>
+      {% for user in item.adders.all %}
+          <p>{{user.full_name}}</p>
+      {% endfor %}
+    </div>
+</body>
+</html>

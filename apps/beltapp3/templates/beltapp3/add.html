@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Create Item</title>
+  {% load staticfiles %}
+<link rel="stylesheet" href="{% static 'beltapp3/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+<script src="{% static 'beltapp3/js/main.js' %}" > </script>
+</head>
+<body>
+    <div id="top">
+      <a href="{% url 'beltapp3:index' %}">Home</a> |
+      <a href="{% url 'loginreg:logout' %}">Logout</a>
+    </div>
+    {% if messages %}
+      {% for message in messages %}
+        <h1>{{message}}</h1>
+      {% endfor %}
+    {% endif %}
+    <h2>Create a New Wish List Item</h2>
+    <form action="{% url 'beltapp3:create' %}" method="POST">
+      {% csrf_token %}
+      <label for="item_name">Item/Product:</label>
+      <input type="text" name="item_name">
+      <p></p>
+      <input type="submit" value="Add">
+    </form>
+
+</body>
+</html>

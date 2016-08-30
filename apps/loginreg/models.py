@@ -4,6 +4,7 @@ import bcrypt
 
 class UserManager(models.Manager):
     def register(self, reg_data):
+        errors = []
         full_name = reg_data['full_name']
         username = reg_data['username']
         date_hired = reg_data['date_hired']
@@ -14,12 +15,25 @@ class UserManager(models.Manager):
             user = self.get(username=username)
         except:
             user = False
-        if len(full_name) >2 and date_hired and len(password) >7 and password == confirm_password and not user:
+        if user:
+            errors.append("Email already exists. Please enter a different email")
+        if not len(full_name) >2:
+            errors.append("Please enter a valid name at least 3 characters")
+        if not len(username) >2:
+            errors.append("Please enter a valid username at least 3 characters")
+        if not len(password)>7:
+            errors.append("Please enter a valid password at least 8 characters")
+        if not password == confirm_password:
+            errors.append("Make sure password and confirm password are matching")
+        if not date_hired:
+            errors.append("Please enter a hired date")
+        if errors:
+            return (False, errors)
+        else:
             u = self.create(full_name=full_name, username=username, date_hired=date_hired, password=hashed)
             print u
             print reg_data
             return (True,u)
-        return (False,"Try again using at least 3 characters in name and username and double check your password matches and has 8 characters or more")
 
     def login(self, log_data):
         username = log_data['username']

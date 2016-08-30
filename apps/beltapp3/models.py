@@ -6,4 +6,4 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey("loginreg.User", related_name = "creator")
-    adders = models.ManyToManyField("loginreg.User", related_name = "adders") # User.objects.get(id=request.session['id']).adders.all is what the related name "adders" allows you to do. That would give you all of the items the User.id referenced wants
+    adders = models.ManyToManyField("loginreg.User", related_name = "adders")

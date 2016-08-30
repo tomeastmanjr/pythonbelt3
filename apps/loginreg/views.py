@@ -12,7 +12,7 @@ def login(request):
         request.session['username']= user[1].username
         request.session['id']= user[1].id
         return redirect('beltapp3:index')
-    messages.add_message(request, messages.SUCCESS, user[1])
+    messages.add_message(request, messages.ERROR, user[1])
     return redirect('loginreg:index')
 
 def register(request):
@@ -22,7 +22,10 @@ def register(request):
         request.session['username']= user[1].username
         request.session['id']= user[1].id
         return redirect('beltapp3:index')
-    messages.add_message(request, messages.SUCCESS, 'You screwed up!!!')
+    else:
+        errors = user[1]
+        for error in errors:
+            messages.add_message(request, messages.ERROR, error)
     return redirect('loginreg:index')
 
 def logout(request):
